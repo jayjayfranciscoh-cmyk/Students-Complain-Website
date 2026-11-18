@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MNHS Student Complaint System</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:Arial;background:#f2f4f7;margin:0;color:#222}
+header{background:#123b70;color:white;text-align:center;padding:25px}
+nav{background:#0b2b52;padding:15px;text-align:center}
+nav a{color:white;text-decoration:none;margin:15px}
+.container{max-width:650px;margin:30px auto;padding:20px}
+.card{background:white;padding:25px;border-radius:10px;box-shadow:0 2px 8px #ccc}
+input,select,textarea{width:100%;padding:12px;margin:8px 0 15px;border:1px solid #ccc;border-radius:5px}
+button{background:#123b70;color:white;padding:12px 20px;border:0;border-radius:5px;cursor:pointer}
+</style>
+</head>
+<body>
+
+<header>
+<h1>MINUYAN NATIONAL HIGH SCHOOL</h1>
+<p>Student Concern and Complaint Reporting System</p>
+</header>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#submit">Submit Complaint</a>
+</nav>
+
+<div class="container" id="home">
+<div class="card">
+<h2>Welcome Students!</h2>
+<p>This website allows students to submit their concerns and complaints to the school administration.</p>
+</div>
+</div>
+
+<div class="container" id="submit">
+<div class="card">
+<h2>Submit Your Complaint</h2>
+
+<form id="complaintForm">
+<label>Full Name</label>
+<input id="name" required placeholder="Enter your name">
+
+<label>Grade and Section</label>
+<input id="section" required placeholder="Example: Grade 12 - GAS">
+
+<label>Complaint Category</label>
+<select id="category" required>
+<option value="">Select category</option>
+<option>School Facilities</option>
+<option>Bullying</option>
+<option>Teacher Concern</option>
+<option>Student Concern</option>
+<option>Academic Concern</option>
+<option>Others</option>
+</select>
+
+<label>Subject</label>
+<input id="subject" required placeholder="Complaint subject">
+
+<label>Complaint Details</label>
+<textarea id="details" rows="5" required placeholder="Explain your concern"></textarea>
+
+<button type="submit">Submit Complaint</button>
+</form>
+
+<p id="message"></p>
+</div>
+</div>
+
+<script>
+const KEY = "mnhs_complaints";
+
+document.getElementById("complaintForm").addEventListener("submit",function(e){
+e.preventDefault();
+
+const complaints = JSON.parse(localStorage.getItem(KEY) || "[]");
+
+const complaint = {
+id: Date.now(),
+name: document.getElementById("name").value,
+section: document.getElementById("section").value,
+category: document.getElementById("category").value,
+subject: document.getElementById("subject").value,
+details: document.getElementById("details").value,
+status: "Pending",
+response: "",
+date: new Date().toLocaleString()
+};
+
+complaints.push(complaint);
+localStorage.setItem(KEY,JSON.stringify(complaints));
+
+document.getElementById("complaintForm").reset();
+document.getElementById("message").textContent =
+"Your complaint has been submitted successfully!";
+});
+</script>
+
+</body>
+</html>
+
